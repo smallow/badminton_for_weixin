@@ -10,8 +10,10 @@ import com.smallow.badminton.service.ActivityRecordService;
 import com.smallow.badminton.service.ActivityService;
 import com.smallow.badminton.service.BadmintonService;
 import com.smallow.badminton.service.MemberService;
+import com.smallow.badminton.util.Md5PwdEncoder;
 import com.smallow.badminton.util.ResponseUtils;
 import com.smallow.badminton.vo.ActivityRecordVo;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,7 +73,7 @@ public class ActivityRecordController {
 
 
     @RequestMapping(value = "/getMemberByGroupNum.do", method = {RequestMethod.POST})
-    public void getMemberByGroupNum(HttpServletRequest request, HttpServletResponse response, String qqNum) {
+    public void getMemberByGroupNum(HttpServletRequest request, HttpServletResponse response, String qqNum,String queryText) {
 
         List<Member> list = memberService.getMembersByQqNum(qqNum);
         String json = JSON.toJSONString(list);
@@ -129,8 +132,8 @@ public class ActivityRecordController {
                             activityRecordVo.setAtyAvgMoney(activity.getAvgCost());
                             activityRecordVo.setQqName(member.getQqName());
                             activityRecordVo.setFriendNum(_friendNum);
-                            activityRecordVo.setMoney(activity.getAvgCost() * (_friendNum + 1));
-                            activityRecordVo.setLeftMoney(member.getMoney());
+                            activityRecordVo.setCurrentDayCost(activity.getAvgCost() * (_friendNum + 1));
+                            activityRecordVo.setCurrentDayLeft(member.getMoney());
                             list.add(activityRecordVo);
                         }
                     }
@@ -146,6 +149,72 @@ public class ActivityRecordController {
         ResponseUtils.renderJson(response,JSON.toJSONString(mapReturn));
 
     }
+
+    @RequestMapping(value = "/queryAtyRecord.do",method = {RequestMethod.GET,RequestMethod.POST})
+    public String queryAtyRecord(HttpServletRequest request,HttpServletResponse response,Integer memberId){
+        List<ActivityRecordVo> list=null;
+        if(memberId!=null){
+            list=activityRecordService.queryActivityRecordByMemberId(memberId);
+            if(list!=null && list.size()>0){
+                request.setAttribute("list",JSON.toJSONString(list));
+            }else{
+                request.setAttribute("list","");
+            }
+
+        }
+
+
+        return "queryAtyRecord";
+    }
+
+    @RequestMapping(value = "/openLogin.do",method = {RequestMethod.GET,RequestMethod.POST})
+    public String openLogin(HttpServletRequest request,HttpServletResponse response){
+        return "openLogin";
+    }
+
+    @RequestMapping(value = "/memberLogin.do",method = {RequestMethod.POST})
+    public void memberLogin(HttpServletRequest request,HttpServletResponse response,String phone,String pwd){
+        Map<String,Object> map=new HashedMap();
+        Member member=memberService.memberLogin(phone, Md5PwdEncoder.encodePassword(pwd,null));
+        if(member==null){
+            map.put("msg","fail");
+        }else{
+            map.put("msg","success");
+            map.put("memberId",member.getId());
+            request.getSession().setAttribute("member",member);
+        }
+
+        String json=JSON.toJSONString(map);
+        ResponseUtils.renderJson(response,json);
+    }
+    @RequestMapping(value = "/checkLogin.do",method = {RequestMethod.POST})
+    public void checkLogin(HttpServletRequest request,HttpServletResponse response){
+        Map<String,Object> map=new HashedMap();
+        Member member=(Member) request.getSession().getAttribute("member");
+        if(member!=null){
+            map.put("memberId",member.getId());
+        }
+        String json=JSON.toJSONString(map);
+        ResponseUtils.renderJson(response,json);
+    }
+
+    @RequestMapping(value = "/baoming.do",method = {RequestMethod.POST})
+    public void baoming(HttpServletRequest request,HttpServletResponse response,Integer memberId,Integer atyId){
+        Map<String,Object> map=new HashedMap();
+
+        if(memberId!=null && atyId!=null){
+            ActivityRecord record=new ActivityRecord();
+
+        }
+
+        String json=JSON.toJSONString(map);
+        ResponseUtils.renderJson(response,json);
+    }
+
+
+
+
+
 
 
 }

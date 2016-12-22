@@ -13,6 +13,8 @@ public class ActivityRecord {
     private String memo;//备注
     private int friendNum;//携带人数
 
+    private Double currentDayLeftMoney;//当天消费完之后的余额
+
     public Integer getId() {
         return id;
     }
@@ -67,5 +69,13 @@ public class ActivityRecord {
 
     public void setFriendNum(int friendNum) {
         this.friendNum = friendNum;
+    }
+
+    public Double getCurrentDayLeftMoney() {
+        return currentDayLeftMoney;
+    }
+
+    public void setCurrentDayLeftMoney(Double currentDayLeftMoney) {
+        this.currentDayLeftMoney = currentDayLeftMoney;
     }
 }

@@ -19,4 +19,8 @@ public interface MemberDao {
 
 
     public int updateMemberByProperties(String[] propertyName, Object[] propertyValue,String[]condition,Object[]conditionValue, int[] types);
+
+    public int saveMember(Member member);
+
+    public int [] deleteMemberByIds(int ids[]);
 }

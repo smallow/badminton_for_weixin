@@ -8,6 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getContextPath();
+    String loginCode=(String)session.getAttribute("admin_login_code");
+    System.out.println(loginCode);
+    if(loginCode==null){
+        response.sendRedirect("/toAdminLogin.do");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -43,7 +48,9 @@
                     </div>
                     <a class="list-group-item active"> <span class="badge">14</span> Help</a>
                 </div>
-            <button class="btn btn-primary ladda-button" data-style="zoom-in" onclick="test(this)"><span class="ladda-label">获取今日活动</span></button>
+            <button class="btn btn-primary ladda-button" data-style="zoom-in" onclick="test(this)"><span class="ladda-label">刷新今日活动</span></button>
+            <button type="button" class="btn btn-default btn-success" onclick="baoming()">报名</button>
+            <button type="button" class="btn btn-default btn-info" onclick="my()">我的</button>
             <button id="btn_publish_aty" type="button" class="btn btn-primary" onclick="add()">发布今日活动</button>
             <button type="button" class="btn btn-default" onclick="addActivityRecord()">添加活动记录</button>
             <button type="button" class="btn btn-default" onclick="qqGroupManage()">群管理</button>
@@ -51,7 +58,7 @@
             <p></p>
             <div class="panel panel-default" style="">
                 <div class="panel-heading">
-                    活动报名
+                    今日活动报名
                 </div>
                 <div class="panel-body" id="todayAtyMemberList">
                     <div class="row show-grid" >
@@ -74,6 +81,24 @@
                 </div>
                 <!-- /.panel-body -->
             </div>
+
+
+
+            <div class="modal fade" id="loginDialog" role="dialog"  >
+                <div class="modal-dialog" style="width: 400px;">
+                    <div class="modal-content">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myDialog" role="dialog"  >
+                <div class="modal-dialog" style="width: 600px;">
+                    <div class="modal-content">
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -81,12 +106,58 @@
 
 </div>
 <input type="hidden" id="activityId" value="" />
+<input type="hidden" id="memberId" value="" />
 <script>
     var _context='<%=path%>';
 
     $(function(){
         getTodayAty();
+
     });
+
+
+
+
+    function baoming(){
+        var atyId=$("#activityId").val();
+        var memberId=$("#memberId").val();
+        if(atyId==""){
+            alert("今日活动还没发布请不要着急!");
+            return false;
+        }
+
+        $.post(_context+"/checkLogin.do",{},function(msg){
+            if(!msg.memberId){
+                $("#loginDialog").modal({
+                    remote: _context+"/openLogin.do"
+                });
+            }else{
+                goBaoMing();
+            }
+        });
+    }
+
+
+    function goBaoMing(){
+        $.post(_context+"/baoming.do",{memberId:$("#memberId").val(),atyId:$("#activityId").val()},function (msg) {
+            if(msg.msg=="success"){
+                alert("报名成功!");
+            }
+        })
+    }
+
+    function setMemberId(memberId){
+        if(memberId!=null && memberId!=undefined){
+            $("#memberId").val(memberId);
+        }
+
+    }
+
+    function my(){
+
+    }
+
+
 
     function getTodayAty(){
         $.post(_context+"/getTodaysAty.do",{}, function (data) {

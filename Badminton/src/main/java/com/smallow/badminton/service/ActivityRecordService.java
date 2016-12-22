@@ -3,6 +3,9 @@ package com.smallow.badminton.service;
 import com.smallow.badminton.enity.Activity;
 import com.smallow.badminton.enity.ActivityRecord;
 import com.smallow.badminton.enity.Member;
+import com.smallow.badminton.vo.ActivityRecordVo;
+
+import java.util.List;
 
 /**
  * Created by smallow on 16/10/13.
@@ -25,4 +28,12 @@ public interface ActivityRecordService {
      * @return
      */
     public boolean saveActivityRecord(ActivityRecord bean);
+
+
+    /**
+     * 根据会员ID查询活动记录
+     * @param memberId
+     * @return
+     */
+    public List<ActivityRecordVo> queryActivityRecordByMemberId(Integer memberId);
 }

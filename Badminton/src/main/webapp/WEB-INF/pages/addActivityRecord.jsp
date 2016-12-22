@@ -7,9 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    String loginCode=(String)session.getAttribute("admin_login_code");
+    System.out.println(loginCode);
+    if(loginCode==null){
+        response.sendRedirect("/toAdminLogin.do");
+    }
     String listJson=(String)request.getAttribute("list");
     String path=request.getContextPath();
     String activityId=(String)request.getAttribute("activityId");
+
 %>
 <!DOCTYPE html>
 <head>
@@ -150,7 +156,7 @@
                     $.each(data, function (index, row) {
                         var spinnerStr=$("<div class='input-group spinner' data-trigger='spinner'><input type='text' class='form-control text-center' value='0' id='spinner_"+row.id+"' data-rule='quantity'><span class='input-group-addon'><a href='javascript:;' class='spin-up' data-spin='up'><i class='fa fa-caret-up'></i></a><a href='javascript:;' class='spin-down' data-spin='down'><i class='fa fa-caret-down'></i></a></span></div>");
 
-                        $("#members").append("<tr><td><input name=\"memberIds\" type=\"checkbox\" value=\""+row.id+"\"/></td><td>"+row.qqName+"</td><td>"+row.weixinNum+"</td><td>"+row.money+"</td><td>"+row.qqGroupName+"</td><td width='120px;' id='"+row.id+"' ></td></tr>");
+                        $("#members").append("<tr><td><input name=\"memberIds\" type=\"checkbox\" value=\""+row.id+"\"/></td><td>"+row.qqName+"</td><td>"+row.qqNum+"</td><td>"+row.money+"</td><td>"+row.qqGroupName+"</td><td width='120px;' id='"+row.id+"' ></td></tr>");
                        //alert(spinnerStr);
                         $("#"+row.id).append(spinnerStr);
                         $('.spinner').spinner();

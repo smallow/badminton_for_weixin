@@ -32,4 +32,23 @@ public interface MemberService {
      * @return
      */
     public boolean updateMemberByProperties(String[] propertyName, Object[] propertyValue,String[]condition,Object[]conditionValue, int[] types);
+
+
+    /**
+     * 查询会员信息
+     * @param qqNum
+     * @param qqName
+     * @param qqGroupNum
+     * @param phone
+     * @return
+     */
+    List<Member> searchMember(String qqNum,String qqName,String qqGroupNum, String phone);
+
+    public int saveMember(Member member);
+
+
+    public int[] deleteMemberByIds(int ids[]);
+
+
+    public Member memberLogin(String phone,String pwd);
 }

@@ -12,6 +12,7 @@ public class Member extends BeanPropertyRowMapper<Member> {
 
     private Integer id;
     private String qqName;
+    private String qqNum;//qq号
     private String phone;
     private String weixinNum;//微信号
     //private Integer groupId;
@@ -88,6 +89,14 @@ public class Member extends BeanPropertyRowMapper<Member> {
         this.qqGroupName = qqGroupName;
     }
 
+    public String getQqNum() {
+        return qqNum;
+    }
+
+    public void setQqNum(String qqNum) {
+        this.qqNum = qqNum;
+    }
+
     @Override
     public Member mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
         Member member=new Member();
@@ -99,6 +108,7 @@ public class Member extends BeanPropertyRowMapper<Member> {
         member.setQqGroupName(resultSet.getString("qq_group_name"));
         member.setMoney(resultSet.getDouble("money"));
         member.setPwd(resultSet.getString("pwd"));
+        member.setQqNum(resultSet.getString("qq_num"));
         return member;
     }
 }

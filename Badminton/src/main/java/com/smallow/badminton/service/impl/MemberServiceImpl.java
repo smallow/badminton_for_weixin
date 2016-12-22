@@ -35,4 +35,34 @@ public class MemberServiceImpl implements MemberService {
             return true;
         return false;
     }
+
+    @Override
+    public List<Member> searchMember(String qqNum,String qqName,String qqGroupNum, String phone) {
+        return memberDao.queryMemberByProperties(new String[]{"qq_group_num","qq_num","qq_name","phone"},new Object[]{qqGroupNum,qqNum,qqName,phone},new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR,Types.VARCHAR});
+
+    }
+
+    @Override
+    public int saveMember(Member member) {
+
+        return memberDao.saveMember(member);
+    }
+
+    @Override
+    public int[] deleteMemberByIds(int[] ids) {
+        return memberDao.deleteMemberByIds(ids);
+
+    }
+
+    @Override
+    public Member memberLogin(String phone, String pwd) {
+        Member member=null;
+        try{
+            member=memberDao.getMemberByProerties(new String[]{"phone","pwd"},new Object[]{phone,pwd},new int[]{Types.VARCHAR,Types.VARCHAR});
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return member;
+
+    }
 }

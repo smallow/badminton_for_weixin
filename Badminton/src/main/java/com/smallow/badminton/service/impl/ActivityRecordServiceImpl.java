@@ -6,10 +6,12 @@ import com.smallow.badminton.enity.Activity;
 import com.smallow.badminton.enity.ActivityRecord;
 import com.smallow.badminton.enity.Member;
 import com.smallow.badminton.service.ActivityRecordService;
+import com.smallow.badminton.vo.ActivityRecordVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Types;
+import java.util.List;
 
 /**
  * Created by smallow on 16/10/14.
@@ -36,6 +38,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                 activityRecord.setMoney(activity.getAvgCost()*(friendNum+1));
                 activityRecord.setMemo("");
                 activityRecord.setFriendNum(friendNum);
+                activityRecord.setCurrentDayLeftMoney(member.getMoney());
                 int j=activityRecordDao.saveActivityRecord(activityRecord);
                 if(j>0){
                     System.out.println("会员:"+member.getQqName()+" 活动记录插入成功!");
@@ -56,4 +59,11 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             return true;
         return false;
     }
+
+    @Override
+    public List<ActivityRecordVo> queryActivityRecordByMemberId(Integer memberId) {
+        return activityRecordDao.queryAtyRecordViewByProperties(new String[]{"member_id"},new Object[]{memberId},new int[]{Types.INTEGER});
+    }
+
+
 }

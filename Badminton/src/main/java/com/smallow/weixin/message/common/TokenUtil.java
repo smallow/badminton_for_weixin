@@ -79,7 +79,7 @@ public class TokenUtil {
     // 第三方用户唯一凭证密钥
     public static String appsecret = "d233413f231c1290e0b52240f8d01d85";
 
-    @Scheduled(cron = "0 0 0/2 * * ?")
+    @Scheduled(cron = "0 0 */2 * * ?")
     public void run() {
         log.info("开始执行定时刷新token任务!");
 
