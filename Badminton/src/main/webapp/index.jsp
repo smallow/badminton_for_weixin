@@ -216,6 +216,7 @@
         $.post(_context+"/saveActivity.do",{}, function (data) {
             if(data.msg=="success"){
                 alert("活动添加成功!");
+                getTodayAty();
             }
         });
     }

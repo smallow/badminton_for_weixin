@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.sql.Types;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +83,8 @@ public class ActivityRecordController {
     }
 
 
+    private DecimalFormat df   =new   java.text.DecimalFormat("#.00");
+
     @RequestMapping(value = "/addActivityRecordSubmit.do", method = {RequestMethod.POST})
     public void addActivityRecordSubmit(HttpServletRequest request, HttpServletResponse response, String memberIds, String friendNums, Integer siteNum, Integer timeNum, Integer badmintonNum, String activityId) {
         List<ActivityRecordVo> list = new ArrayList<ActivityRecordVo>();
@@ -132,8 +136,12 @@ public class ActivityRecordController {
                             activityRecordVo.setAtyAvgMoney(activity.getAvgCost());
                             activityRecordVo.setQqName(member.getQqName());
                             activityRecordVo.setFriendNum(_friendNum);
-                            activityRecordVo.setCurrentDayCost(activity.getAvgCost() * (_friendNum + 1));
-                            activityRecordVo.setCurrentDayLeft(member.getMoney());
+                            //BigDecimal   bd   =   new   BigDecimal("3.14159265");
+                            //bd   =   bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+
+
+                            activityRecordVo.setCurrentDayCost( new Double(df.format(activity.getAvgCost() * (_friendNum + 1))));
+                            activityRecordVo.setCurrentDayLeft(new Double(df.format(member.getMoney())));
                             list.add(activityRecordVo);
                         }
                     }

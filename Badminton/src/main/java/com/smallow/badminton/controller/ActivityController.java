@@ -55,7 +55,7 @@ public class ActivityController {
             activity.setTimeNum(2);
             activity.setSiteNum(2);
             Member chargeMember=new Member();
-            chargeMember.setId(3);
+            chargeMember.setId(7);
             chargeMember.setQqName("喜洋洋");
             chargeMember.setPhone("13603456869");
             activity.setChargeMember(chargeMember);

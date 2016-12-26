@@ -206,7 +206,7 @@
 
     function  loadAtyRecord(data){
         $.each(data,function(index,obj){
-            $("#atyRecordBody").append("<tr><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.money+"</td><td width='120px;'  >"+obj.leftMoney+"</td></tr>");
+            $("#atyRecordBody").append("<tr><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
         });
     }
 </script>
