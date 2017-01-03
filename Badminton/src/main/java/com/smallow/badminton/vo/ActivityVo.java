@@ -1,26 +1,18 @@
-package com.smallow.badminton.enity;
+package com.smallow.badminton.vo;
 
-
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
+import com.smallow.badminton.enity.Member;
 
 /**
- * Created by smallow on 16/8/30.
+ * Created by wanghuidong on 2017/1/3.
  */
-public class Activity extends BeanPropertyRowMapper<Activity> {
+public class ActivityVo {
 
     private Integer id;
     private String address;
-    private Timestamp startTime;//活动开始时间
-    private Timestamp endTime;//活动结束时间
+    private String startTime;//活动开始时间
+    private String endTime;//活动结束时间
     private Integer timeNum;//活动时间数
-    private Date date;//活动日期
+    private String date;//活动日期
     private Member chargeMember;//活动负责人
     private Double totalCost;//总费用
     private Integer badmintonNum;//羽毛球个数
@@ -28,8 +20,6 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
     private Double avgCost;//人均费用
     private Integer totalPerson;//活动总人数
     private String qqGroupNum;//QQ群号
-
-    //private List<Member> membersList;//活动参加人
 
 
     public Integer getId() {
@@ -48,19 +38,20 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
         this.address = address;
     }
 
-    public Timestamp getStartTime() {
+
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -72,11 +63,11 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
         this.timeNum = timeNum;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -112,7 +103,6 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
         this.siteNum = siteNum;
     }
 
-
     public Double getAvgCost() {
         return avgCost;
     }
@@ -135,28 +125,5 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
 
     public void setQqGroupNum(String qqGroupNum) {
         this.qqGroupNum = qqGroupNum;
-    }
-
-    @Override
-    public Activity mapRow(ResultSet resultSet, int i) throws SQLException {
-        Activity activity=new Activity();
-        activity.setId(resultSet.getInt("id"));
-        activity.setAddress(resultSet.getString("address"));
-        activity.setBadmintonNum(resultSet.getInt("bad_num"));
-        activity.setSiteNum(resultSet.getInt("site_num"));
-        activity.setTimeNum(resultSet.getInt("time_num"));
-        activity.setDate(resultSet.getDate("date"));
-        activity.setStartTime(resultSet.getTimestamp("start_time"));
-        activity.setEndTime(resultSet.getTimestamp("end_time"));
-        Member chargeMember=new Member();
-        chargeMember.setId(resultSet.getInt("charge_member_id"));
-        chargeMember.setQqName(resultSet.getString("charge_member_name"));
-        chargeMember.setPhone(resultSet.getString("charge_member_phone"));
-        activity.setChargeMember(chargeMember);
-        activity.setTotalCost(resultSet.getDouble("total_cost"));
-        activity.setAvgCost(resultSet.getDouble("avg_cost"));
-        activity.setTotalPerson(resultSet.getInt("total_person"));
-        activity.setQqGroupNum(resultSet.getString("qq_group_num"));
-        return activity;
     }
 }

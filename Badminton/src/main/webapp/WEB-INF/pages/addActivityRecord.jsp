@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String loginCode=(String)session.getAttribute("admin_login_code");
-    System.out.println(loginCode);
+    //System.out.println(loginCode);
     if(loginCode==null){
         response.sendRedirect("/toAdminLogin.do");
     }

@@ -58,4 +58,11 @@ public interface ActivityService {
     public boolean updateActivityByProperties(String[] propertyName, Object[] propertyValue,String[]condition,Object[]conditionValue, int[] types);
 
 
+    /**
+     * 查询群活动
+     * @param qqGroupNum
+     * @return
+     */
+    public List<Activity> queryAtysByQQGroupNum(String  qqGroupNum,Integer pageNum);
+
 }

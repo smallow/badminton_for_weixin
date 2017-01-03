@@ -69,14 +69,15 @@
     $(function () {
         var str = '<%=listJson%>';
         var data = JSON.parse(str);
-        // alert(data.length);
+         //alert(data.length);
+        $("#records").html("");
         if (data && data.length > 0) {
-            $.each(data, function (index, obj) {
+
                 $.each(data, function (index, row) {
                     //var spinnerStr=$("<div class='input-group spinner' data-trigger='spinner'><input type='text' class='form-control text-center' value='0' id='spinner_"+row.id+"' data-rule='quantity'><span class='input-group-addon'><a href='javascript:;' class='spin-up' data-spin='up'><i class='fa fa-caret-up'></i></a><a href='javascript:;' class='spin-down' data-spin='down'><i class='fa fa-caret-down'></i></a></span></div>");
                     $("#records").append("<tr><td>" + row.atyDate + "</td><td>" + row.qqName + "</td><td>" + row.qqNum + "</td><td>"+row.friendNum+"</td><td>"+row.atyAvgMoney+"</td><td>" + row.currentDayCost + "</td><td width='120px;' >" + row.currentDayLeft + "</td></tr>");
                 })
-            });
+
 
 
         }

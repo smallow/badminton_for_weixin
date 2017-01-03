@@ -75,9 +75,13 @@ public class TokenUtil {
     //private static Logger log = LoggerFactory.getLogger(TokenUtil.class);
     public static Token accessToken = null;
     // 第三方用户唯一凭证
-    public static String appid = "wx046dc37216ababdb";
+    public static String appid = "wx046dc37216ababdb";//测试号
+    //public static String appid = "wx87c983d7bbda6f41";//飞羽正式号
+
     // 第三方用户唯一凭证密钥
-    public static String appsecret = "d233413f231c1290e0b52240f8d01d85";
+    public static String appsecret = "d233413f231c1290e0b52240f8d01d85";//测试号
+    //public static String appsecret = "bb981d3b5adb6b9251653e1e010f3735";//飞羽正式号
+
 
     @Scheduled(cron = "0 0 */2 * * ?")
     public void run() {

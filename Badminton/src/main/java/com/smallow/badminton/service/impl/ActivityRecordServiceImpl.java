@@ -65,5 +65,10 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
         return activityRecordDao.queryAtyRecordViewByProperties(new String[]{"member_id"},new Object[]{memberId},new int[]{Types.INTEGER});
     }
 
+    @Override
+    public List<ActivityRecordVo> queryActivityRecordByAtyId(Integer atyId) {
+        return activityRecordDao.queryAtyRecordViewByProperties(new String[]{"activity_id"},new Object[]{atyId},new int[]{Types.INTEGER});
+    }
+
 
 }

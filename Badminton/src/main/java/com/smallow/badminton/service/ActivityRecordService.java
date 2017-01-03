@@ -36,4 +36,11 @@ public interface ActivityRecordService {
      * @return
      */
     public List<ActivityRecordVo> queryActivityRecordByMemberId(Integer memberId);
+
+    /**
+     * 根据活动ID查询活动详细记录
+     * @param atyId
+     * @return
+     */
+    public List<ActivityRecordVo> queryActivityRecordByAtyId(Integer atyId);
 }

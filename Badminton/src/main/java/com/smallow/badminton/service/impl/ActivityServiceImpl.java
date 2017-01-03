@@ -68,6 +68,11 @@ public class ActivityServiceImpl implements ActivityService {
         return false;
     }
 
+    @Override
+    public List<Activity> queryAtysByQQGroupNum(String qqGroupNum,Integer pageNum) {
+        return activityDao.queryActivityByProerties(new String[]{"qq_group_num"},new Object[]{qqGroupNum},new int[]{Types.VARCHAR},pageNum);
+    }
+
     private Activity parseActivity(Map<String, Object> dbData) {
 //        if (dbData != null) {
 //            Activity activity = new Activity();

@@ -10,7 +10,7 @@
     String listJson = (String) request.getAttribute("list");
     String path = request.getContextPath();
     String loginCode=(String)session.getAttribute("admin_login_code");
-    System.out.println(loginCode);
+    //System.out.println(loginCode);
     if(loginCode==null){
         response.sendRedirect("/toAdminLogin.do");
     }
@@ -25,6 +25,13 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <h3><i class="glyphicon glyphicon-dashboard"></i> 群管理后台</h3>
+
+            <div class="row">
+                <div style="float: right;">
+                    <button type="button" class="btn btn-default btn-success" onclick="atyManage()">活动管理
+                    </button>
+                </div>
+            </div>
             <hr>
             <div class="row">
                 <div class="col-sm-3 form-group">
@@ -206,6 +213,12 @@
             remote: _context+"/queryAtyRecord.do?memberId="+checkedMemberId
         });
     }
+
+    function atyManage(){
+            window.location.href=_context+"/atyManage.do?qqGroupId="+$("#group").val()
+    }
+
+
 </script>
 </body>
 </html>

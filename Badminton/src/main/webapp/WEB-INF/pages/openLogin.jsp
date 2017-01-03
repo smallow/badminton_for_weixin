@@ -60,6 +60,8 @@
                 $("#loginDialog").modal("hide");
                 parent.setMemberId(msg.memberId);
                 parent.goBaoMing();
+            }else{
+                alert("用户名密码不正确!");
             }
 
         })

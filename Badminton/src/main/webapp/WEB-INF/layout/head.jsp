@@ -22,7 +22,7 @@
 
 
     <link href="../../static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="../../static/bootstrap/dist/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 
     <link href="../../static/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -30,6 +30,8 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../../static/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../static/bootstrap/dist/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../static/bootstrap/dist/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="../../static/js/common.js"></script>
 </head>
 <body>

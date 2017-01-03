@@ -11,6 +11,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by smallow on 16/10/13.
@@ -41,8 +43,8 @@ public class ActivityDaoImpl implements ActivityDao {
     public int publishActivity(final Activity activity) {
 
         if (activity != null) {
-            final String sql = "insert into badminton_activity  (address,start_time,end_time,date,charge_member_id,charge_member_name,charge_member_phone,site_num,time_num)" +
-                    "values (?,?,?,?,?,?,?,?,?)";
+            final String sql = "insert into badminton_activity  (address,start_time,end_time,date,charge_member_id,charge_member_name,charge_member_phone,site_num,time_num,qq_group_num)" +
+                    "values (?,?,?,?,?,?,?,?,?,?)";
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(
                     new PreparedStatementCreator() {
@@ -57,6 +59,7 @@ public class ActivityDaoImpl implements ActivityDao {
                             ps.setString(7, activity.getChargeMember().getPhone());
                             ps.setInt(8, activity.getSiteNum());
                             ps.setInt(9, activity.getTimeNum());
+                            ps.setString(10,activity.getQqGroupNum());
                             return ps;
                         }
                     }, keyHolder);
@@ -99,5 +102,33 @@ public class ActivityDaoImpl implements ActivityDao {
     @Override
     public int updateActivityBySql(String sql, Object... objects) {
         return jdbcTemplate.update(sql,objects);
+    }
+
+    @Override
+    public List<Activity> queryActivityByProerties(String[] propertyName, Object[] propertyValue, int[] types,Integer pageNum) {
+
+        List<Object> value = new ArrayList();
+        List<Integer> _types = new ArrayList<Integer>();
+        StringBuffer sql = new StringBuffer("select * from badminton_activity m where 1=1 ");
+        if (propertyName != null && propertyValue != null && propertyName.length == propertyValue.length) {
+
+            for (int i = 0; i < propertyName.length; i++) {
+                if (propertyValue[i] != null && !"".equals(propertyValue[i])) {
+                    sql.append(" and ").append(propertyName[i]).append("=? ");
+                    value.add(propertyValue[i]);
+                    _types.add(types[i]);
+                }
+
+            }
+        }
+        int[] __types = new int[_types.size()];
+        Integer[] tmp = _types.toArray(new Integer[_types.size()]);
+        for (int i = 0; i < tmp.length; i++) {
+            __types[i] = tmp[i].intValue();
+        }
+        if(pageNum!=0){
+            sql.append(" limit "+(pageNum-1)*10+",10");
+        }
+        return jdbcTemplate.query(sql.toString(), value.toArray(), __types, new Activity());
     }
 }

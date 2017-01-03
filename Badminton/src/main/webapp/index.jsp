@@ -8,11 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getContextPath();
-    String loginCode=(String)session.getAttribute("admin_login_code");
-    System.out.println(loginCode);
-    if(loginCode==null){
-        response.sendRedirect("/toAdminLogin.do");
-    }
+    //String loginCode=(String)session.getAttribute("admin_login_code");
+    //System.out.println(loginCode);
+//    if(loginCode==null){
+//        response.sendRedirect("/toAdminLogin.do");
+//    }
 %>
 <!DOCTYPE html>
 <html>
@@ -51,8 +51,8 @@
             <button class="btn btn-primary ladda-button" data-style="zoom-in" onclick="test(this)"><span class="ladda-label">刷新今日活动</span></button>
             <button type="button" class="btn btn-default btn-success" onclick="baoming()">报名</button>
             <button type="button" class="btn btn-default btn-info" onclick="my()">我的</button>
-            <button id="btn_publish_aty" type="button" class="btn btn-primary" onclick="add()">发布今日活动</button>
-            <button type="button" class="btn btn-default" onclick="addActivityRecord()">添加活动记录</button>
+            <button id="btn_publish_aty" type="button" class="btn btn-primary" onclick="add()">发布活动</button>
+            <!--<button type="button" class="btn btn-default" onclick="addActivityRecord()">添加活动记录</button>-->
             <button type="button" class="btn btn-default" onclick="qqGroupManage()">群管理</button>
 
             <p></p>
@@ -120,7 +120,6 @@
 
     function baoming(){
         var atyId=$("#activityId").val();
-        var memberId=$("#memberId").val();
         if(atyId==""){
             alert("今日活动还没发布请不要着急!");
             return false;
@@ -128,17 +127,20 @@
 
         $.post(_context+"/checkLogin.do",{},function(msg){
             if(!msg.memberId){
+
                 $("#loginDialog").modal({
                     remote: _context+"/openLogin.do"
                 });
             }else{
+                $("#memberId").val(msg.memberId);
                 goBaoMing();
             }
-        });
+        },'json');
     }
 
 
     function goBaoMing(){
+
         $.post(_context+"/baoming.do",{memberId:$("#memberId").val(),atyId:$("#activityId").val()},function (msg) {
             if(msg.msg=="success"){
                 alert("报名成功!");
@@ -164,7 +166,7 @@
             if(data.msg && data.msg=="none"){
                 alert("今天活动还没发布请不要着急!");
             }else{
-                $("#btn_publish_aty").attr("class","btn btn-primary disabled");
+                //$("#btn_publish_aty").attr("class","btn btn-primary disabled");
 
 
                 var startDay1=new Date(parseInt(data.startTime));
@@ -213,24 +215,22 @@
 
     function add(){
         var _context='<%=path%>';
-        $.post(_context+"/saveActivity.do",{}, function (data) {
-            if(data.msg=="success"){
-                alert("活动添加成功!");
-                getTodayAty();
-            }
+
+
+        $("#myDialog").modal({
+            remote: _context+"/openAddAty.do"
         });
     }
 
-    function addActivityRecord(){
-        var _context='<%=path%>';
+    /*function addActivityRecord(){
+
         var activityId=$("#activityId").val();
         if(activityId=="" || activityId==null){
             alert("今天还没有发布活动!");
             return false;
         }
-
         window.location.href=_context+"/addActivityRecord.do?activityId="+activityId;
-    }
+    }*/
 
     function qqGroupManage(){
         window.location.href=_context+"/qqGroupManage.do?";
