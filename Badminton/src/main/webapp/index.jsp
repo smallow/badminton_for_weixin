@@ -107,10 +107,17 @@
 </div>
 <input type="hidden" id="activityId" value="" />
 <input type="hidden" id="memberId" value="" />
+<input type="hidden" id="memberName" value="" />
 <script>
     var _context='<%=path%>';
 
     $(function(){
+        $("#loginDialog").on("hidden.bs.modal", function() {
+            $(this).removeData("bs.modal");
+        });
+        $("#myDialog").on("hidden.bs.modal", function() {
+            $(this).removeData("bs.modal");
+        });
         getTodayAty();
 
     });
@@ -133,6 +140,7 @@
                 });
             }else{
                 $("#memberId").val(msg.memberId);
+                $("#memberName").val(msg.memberName);
                 goBaoMing();
             }
         },'json');
@@ -141,16 +149,30 @@
 
     function goBaoMing(){
 
-        $.post(_context+"/baoming.do",{memberId:$("#memberId").val(),atyId:$("#activityId").val()},function (msg) {
-            if(msg.msg=="success"){
-                alert("报名成功!");
-            }
-        })
+//        $.post(_context+"/baoming.do",{memberId:$("#memberId").val(),atyId:$("#activityId").val()},function (msg) {
+//            if(msg.msg=="success"){
+//                alert("报名成功!");
+//            }
+//        })
+        //alert("dd");
+        var memberId=$("#memberId").val();
+        var atyId=$("#activityId").val();
+        var memberName=$("#memberName").val();
+        $("#myDialog").modal({
+            remote: _context+"/goBaoMing.do?memberId="+memberId+"&atyId="+atyId+"&memberName="+encodeURI(memberName)
+        });
     }
 
     function setMemberId(memberId){
         if(memberId!=null && memberId!=undefined){
             $("#memberId").val(memberId);
+        }
+
+    }
+    function setMemberName(memberName){
+        //alert(memberName);
+        if(memberName!=null && memberName!=undefined){
+            $("#memberName").val(memberName);
         }
 
     }

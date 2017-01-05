@@ -18,7 +18,7 @@ public class ActivityRecordVo extends BeanPropertyRowMapper<ActivityRecordVo> {
     private int atyTotalPerson;//活动总人数
     private int atySiteNum;//活动场地数
     private int atyBadNum;//活动用球数
-    private int atyTimeNum;//活动时间数
+    private float atyTimeNum;//活动时间数
     private Double atyTotalMoney;//活动总消费
     private Double atyAvgMoney;//活动人均消费
 
@@ -71,11 +71,11 @@ public class ActivityRecordVo extends BeanPropertyRowMapper<ActivityRecordVo> {
         this.atyBadNum = atyBadNum;
     }
 
-    public int getAtyTimeNum() {
+    public float getAtyTimeNum() {
         return atyTimeNum;
     }
 
-    public void setAtyTimeNum(int atyTimeNum) {
+    public void setAtyTimeNum(float atyTimeNum) {
         this.atyTimeNum = atyTimeNum;
     }
 

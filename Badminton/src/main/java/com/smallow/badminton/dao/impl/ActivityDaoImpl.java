@@ -58,7 +58,7 @@ public class ActivityDaoImpl implements ActivityDao {
                             ps.setString(6, activity.getChargeMember().getQqName());
                             ps.setString(7, activity.getChargeMember().getPhone());
                             ps.setInt(8, activity.getSiteNum());
-                            ps.setInt(9, activity.getTimeNum());
+                            ps.setFloat(9, activity.getTimeNum());
                             ps.setString(10,activity.getQqGroupNum());
                             return ps;
                         }

@@ -59,6 +59,8 @@
                 alert("登录成功!");
                 $("#loginDialog").modal("hide");
                 parent.setMemberId(msg.memberId);
+                parent.setMemberName(msg.memberName);
+               // alert(memberName);
                 parent.goBaoMing();
             }else{
                 alert("用户名密码不正确!");

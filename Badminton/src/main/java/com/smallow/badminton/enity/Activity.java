@@ -19,7 +19,7 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
     private String address;
     private Timestamp startTime;//活动开始时间
     private Timestamp endTime;//活动结束时间
-    private Integer timeNum;//活动时间数
+    private float timeNum;//活动时间数
     private Date date;//活动日期
     private Member chargeMember;//活动负责人
     private Double totalCost;//总费用
@@ -64,11 +64,11 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
         this.endTime = endTime;
     }
 
-    public Integer getTimeNum() {
+    public float getTimeNum() {
         return timeNum;
     }
 
-    public void setTimeNum(Integer timeNum) {
+    public void setTimeNum(float timeNum) {
         this.timeNum = timeNum;
     }
 
