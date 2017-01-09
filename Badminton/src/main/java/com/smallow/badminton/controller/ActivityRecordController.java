@@ -267,6 +267,7 @@ public class ActivityRecordController {
             int i= baoMingService.updateBaoMing(bean);
             if(i>0){
                 map.put("msg","success");
+
             }else{
                 map.put("msg","fail");
             }
@@ -289,6 +290,14 @@ public class ActivityRecordController {
                 map.put("msg","fail");
             }
         }
+
+
+        //报名信息更新成功之后要更新活动 总人数
+        int totalPerson=activityService.getTotalPersonByAtyId(atyId);
+        boolean b=activityService.updateActivityByProperties(new String[]{"total_person"},new Object[]{totalPerson},new String[]{"id"},new Object[]{atyId},new int[]{Types.INTEGER,Types.INTEGER});
+        if(b){
+            System.out.println("活动人数更新成功!");
+        }
         String json=JSON.toJSONString(map);
         ResponseUtils.renderJson(response,json);
 
@@ -306,6 +315,14 @@ public class ActivityRecordController {
                 map.put("msg","success");
             }else{
                 map.put("msg","fail");
+            }
+
+
+            //报名信息更新成功之后要更新活动 总人数
+            int totalPerson=activityService.getTotalPersonByAtyId(bean.getAtyId());
+            boolean b=activityService.updateActivityByProperties(new String[]{"total_person"},new Object[]{totalPerson},new String[]{"id"},new Object[]{bean.getAtyId()},new int[]{Types.INTEGER,Types.INTEGER});
+            if(b){
+                System.out.println("活动人数更新成功!");
             }
 
         }

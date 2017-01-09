@@ -69,6 +69,7 @@ public class ActivityController {
             activity.setChargeMember(chargeMember);
             activity.setSiteNum(siteNum);
             activity.setQqGroupNum("33501640");
+            activity.setAtyStatus(Activity.ATY_STATUS_WKS);
             Activity _activity=activityService.publishActivity(activity);
             if(_activity!=null){
                 System.out.println("保存成功:"+_activity.getId());
@@ -175,13 +176,32 @@ public class ActivityController {
     public String queryAtyDetail(HttpServletRequest request,Integer atyId){
         if(atyId!=null && atyId!=0){
             Activity atyBean=activityService.getActivityById(atyId);
-            List<ActivityRecordVo> list=activityRecordService.queryActivityRecordByAtyId(atyId);
-            if(list!=null && list.size()>0){
-                String listJson=JSON.toJSONString(list);
-
-                request.setAttribute("list",listJson);
-
+            String atyStatus="";
+            if(atyBean!=null){
+                atyStatus=atyBean.getAtyStatus();
             }
+            if(atyStatus.equals(Activity.ATY_STATUS_WKS)){
+                //活动未开始 显示报名记录
+                List<BaoMingRecordVo> list=activityRecordService.queryActivityBaoMingRecordByAtyId(atyId);
+                if(list!=null && list.size()>0){
+                    String listJson=JSON.toJSONString(list);
+                    request.setAttribute("list",listJson);
+
+                }
+            }else if(atyStatus.equals(Activity.ATY_STATUS_JXZ)){
+                //进行中 显示报名记录
+            }else if(atyStatus.equals(Activity.ATY_STATUS_YJS)){
+                //已结束 显示打球记录
+                List<ActivityRecordVo> list=activityRecordService.queryActivityRecordByAtyId(atyId);
+                if(list!=null && list.size()>0){
+                    String listJson=JSON.toJSONString(list);
+                    request.setAttribute("list",listJson);
+
+                }
+            }
+
+
+
             if(atyBean!=null){
                 ActivityVo bean=parseAtyVo(atyBean);
                 String atyJson=JSON.toJSONString(bean);

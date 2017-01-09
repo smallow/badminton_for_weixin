@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -43,8 +44,8 @@ public class ActivityDaoImpl implements ActivityDao {
     public int publishActivity(final Activity activity) {
 
         if (activity != null) {
-            final String sql = "insert into badminton_activity  (address,start_time,end_time,date,charge_member_id,charge_member_name,charge_member_phone,site_num,time_num,qq_group_num)" +
-                    "values (?,?,?,?,?,?,?,?,?,?)";
+            final String sql = "insert into badminton_activity  (address,start_time,end_time,date,charge_member_id,charge_member_name,charge_member_phone,site_num,time_num,qq_group_num,aty_status)" +
+                    "values (?,?,?,?,?,?,?,?,?,?,?)";
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(
                     new PreparedStatementCreator() {
@@ -60,6 +61,7 @@ public class ActivityDaoImpl implements ActivityDao {
                             ps.setInt(8, activity.getSiteNum());
                             ps.setFloat(9, activity.getTimeNum());
                             ps.setString(10,activity.getQqGroupNum());
+                            ps.setString(11,activity.getAtyStatus());
                             return ps;
                         }
                     }, keyHolder);
@@ -130,5 +132,12 @@ public class ActivityDaoImpl implements ActivityDao {
             sql.append(" limit "+(pageNum-1)*10+",10");
         }
         return jdbcTemplate.query(sql.toString(), value.toArray(), __types, new Activity());
+    }
+
+    @Override
+    public int getTotalPersonByAtyId(Integer atyId) {
+        String sql="select count(id) from badminton_baoming where aty_id=? and sf_qj=0 ";
+        int num=jdbcTemplate.queryForInt(sql,atyId);
+        return num;
     }
 }

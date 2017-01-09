@@ -2,6 +2,7 @@ package com.smallow.badminton.service;
 
 import com.smallow.badminton.enity.Activity;
 import com.smallow.badminton.enity.ActivityRecord;
+import com.smallow.badminton.enity.BaoMingRecordVo;
 import com.smallow.badminton.enity.Member;
 import com.smallow.badminton.vo.ActivityRecordVo;
 
@@ -43,4 +44,12 @@ public interface ActivityRecordService {
      * @return
      */
     public List<ActivityRecordVo> queryActivityRecordByAtyId(Integer atyId);
+
+
+    /**
+     * 根据活动ID查询活动报名详细记录 (活动未开始时候)
+     * @param atyId
+     * @return
+     */
+    public List<BaoMingRecordVo> queryActivityBaoMingRecordByAtyId(Integer atyId);
 }

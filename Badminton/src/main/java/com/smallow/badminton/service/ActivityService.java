@@ -65,4 +65,11 @@ public interface ActivityService {
      */
     public List<Activity> queryAtysByQQGroupNum(String  qqGroupNum,Integer pageNum);
 
+    /**
+     * 获取活动的实际参加人数  不包含请假的
+     * @param atyId
+     * @return
+     */
+    public int getTotalPersonByAtyId(Integer atyId);
+
 }

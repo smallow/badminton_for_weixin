@@ -10,8 +10,8 @@ public class Constant {
 
     public static final String TOKEN="smallow521";
     public static final SimpleDateFormat formatForYYYYMMDD=new SimpleDateFormat("yyyy-MM-dd");
-    public static final SimpleDateFormat formatForYYYYMMDDHHMMSS=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    public static final SimpleDateFormat formatForYYYYMMDDHHMM=new SimpleDateFormat("yyyy-MM-dd hh:mm");
+    public static final SimpleDateFormat formatForYYYYMMDDHHMMSS=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat formatForYYYYMMDDHHMM=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public static final DecimalFormat decimalFormat=new DecimalFormat("0.00");
     public static void main(String args[]){

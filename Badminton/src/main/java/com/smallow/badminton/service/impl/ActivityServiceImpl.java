@@ -73,6 +73,11 @@ public class ActivityServiceImpl implements ActivityService {
         return activityDao.queryActivityByProerties(new String[]{"qq_group_num"},new Object[]{qqGroupNum},new int[]{Types.VARCHAR},pageNum);
     }
 
+    @Override
+    public int getTotalPersonByAtyId(Integer atyId) {
+        return activityDao.getTotalPersonByAtyId(atyId);
+    }
+
     private Activity parseActivity(Map<String, Object> dbData) {
 //        if (dbData != null) {
 //            Activity activity = new Activity();

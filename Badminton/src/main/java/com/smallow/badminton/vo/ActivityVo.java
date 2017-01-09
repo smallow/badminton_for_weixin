@@ -20,6 +20,7 @@ public class ActivityVo {
     private Double avgCost;//人均费用
     private Integer totalPerson;//活动总人数
     private String qqGroupNum;//QQ群号
+    private String atyStatus;
 
 
     public Integer getId() {
@@ -125,5 +126,13 @@ public class ActivityVo {
 
     public void setQqGroupNum(String qqGroupNum) {
         this.qqGroupNum = qqGroupNum;
+    }
+
+    public String getAtyStatus() {
+        return atyStatus;
+    }
+
+    public void setAtyStatus(String atyStatus) {
+        this.atyStatus = atyStatus;
     }
 }

@@ -4,6 +4,7 @@ import com.smallow.badminton.dao.ActivityRecordDao;
 import com.smallow.badminton.dao.MemberDao;
 import com.smallow.badminton.enity.Activity;
 import com.smallow.badminton.enity.ActivityRecord;
+import com.smallow.badminton.enity.BaoMingRecordVo;
 import com.smallow.badminton.enity.Member;
 import com.smallow.badminton.service.ActivityRecordService;
 import com.smallow.badminton.vo.ActivityRecordVo;
@@ -68,6 +69,11 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
     @Override
     public List<ActivityRecordVo> queryActivityRecordByAtyId(Integer atyId) {
         return activityRecordDao.queryAtyRecordViewByProperties(new String[]{"activity_id"},new Object[]{atyId},new int[]{Types.INTEGER});
+    }
+
+    @Override
+    public List<BaoMingRecordVo> queryActivityBaoMingRecordByAtyId(Integer atyId) {
+        return activityRecordDao.queryAtyBaoMingRecordViewByProperties(new String[]{"aty_id"},new Object[]{atyId},new int[]{Types.INTEGER});
     }
 
 

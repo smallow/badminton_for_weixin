@@ -2,6 +2,7 @@ package com.smallow.badminton.dao.impl;
 
 import com.smallow.badminton.dao.ActivityRecordDao;
 import com.smallow.badminton.enity.ActivityRecord;
+import com.smallow.badminton.enity.BaoMingRecordVo;
 import com.smallow.badminton.enity.Member;
 import com.smallow.badminton.vo.ActivityRecordVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,29 @@ public class ActivityRecordDaoImpl implements ActivityRecordDao {
             __types[i] = tmp[i].intValue();
         }
         return jdbcTemplate.query(sql.toString(), value.toArray(), __types, new ActivityRecordVo());
+    }
+
+    @Override
+    public List<BaoMingRecordVo> queryAtyBaoMingRecordViewByProperties(String[] propertyName, Object[] propertyValue, int[] types) {
+        List<Object> value = new ArrayList();
+        List<Integer> _types = new ArrayList<Integer>();
+        StringBuffer sql = new StringBuffer("select * from view_baoming_record m where 1=1 ");
+        if (propertyName != null && propertyValue != null && propertyName.length == propertyValue.length) {
+
+            for (int i = 0; i < propertyName.length; i++) {
+                if (propertyValue[i] != null && !"".equals(propertyValue[i])) {
+                    sql.append(" and ").append(propertyName[i]).append("=? ");
+                    value.add(propertyValue[i]);
+                    _types.add(types[i]);
+                }
+
+            }
+        }
+        int[] __types = new int[_types.size()];
+        Integer[] tmp = _types.toArray(new Integer[_types.size()]);
+        for (int i = 0; i < tmp.length; i++) {
+            __types[i] = tmp[i].intValue();
+        }
+        return jdbcTemplate.query(sql.toString(), value.toArray(), __types, new BaoMingRecordVo());
     }
 }

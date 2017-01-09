@@ -47,16 +47,16 @@ if(tmp!=null){
                     <div class="list-group-item">
                         时间数:&nbsp;&nbsp;&nbsp;<span id="aty_time_num" class="list-group-item-text" style="color: #d43f3a;font-size: 20px;"></span>
                     </div>
-                    <div class="list-group-item">
+                    <div class="list-group-item" id="div_bad_num" style="display: none;">
                         用球数:&nbsp;&nbsp;&nbsp;<span id="aty_bad_num" class="list-group-item-text" style="color: #d43f3a;font-size: 20px;"></span>
                     </div>
                     <div class="list-group-item">
                         总人数:&nbsp;&nbsp;&nbsp;<span id="aty_total_person" class="list-group-item-text" style="color: #d9534f;font-size: 20px;"></span>
                     </div>
-                    <div class="list-group-item">
+                    <div class="list-group-item" id="div_total_cost" style="display: none;">
                         总消费:&nbsp;&nbsp;&nbsp;<span id="aty_total_cost" class="list-group-item-text" style="color: #d9534f;font-size: 20px;"></span>&nbsp;(元)
                     </div>
-                    <div class="list-group-item">
+                    <div class="list-group-item" id="div_avg_cost" style="display: none;">
                         人均消费:&nbsp;&nbsp;&nbsp;<span id="aty_avg_cost" class="list-group-item-text" style="color: #d9534f;font-size: 20px;"></span>&nbsp;(元)
                     </div>
                     <div class="list-group-item">
@@ -66,7 +66,7 @@ if(tmp!=null){
                         联系电话:&nbsp;&nbsp;&nbsp;<span id="aty_charge_member_phone" class="list-group-item-text"></span>
                     </div>
 
-                    <div class="row">
+                    <div class="row" id="jieSuanBtn" style="display: none;">
                         <div class="col-md-12 column" style="padding: 15px;">
                             <button type="button" class="btn btn-danger" onclick="finishAty()">结算活动</button>
                         </div>
@@ -79,7 +79,14 @@ if(tmp!=null){
                 <div class="table-responsive">
                     <table class="table table-condensed table-bordered table-hover" style="font-size: 10px;">
                         <thead>
-                        <tr>
+                        <tr style="display: none;" id="atyHead1">
+                            <th>名称</th>
+                            <th>带人数</th>
+                            <th>带人名称</th>
+                            <th>报名时间</th>
+                            <th>是否请假</th>
+                        </tr>
+                        <tr style="display: none;" id="atyHead2">
                             <th>名称</th>
                             <th>带人数</th>
                             <th>活动人均A费(元)</th>
@@ -111,37 +118,54 @@ if(tmp!=null){
 
         var data = JSON.parse(str);
         var aty=JSON.parse(atyStr);
-        // alert(data.length);
-        if (data && data.length > 0) {
-            $.each(data, function (index, obj) {
-                if(obj.currentDayLeft<0){
-                    $("#atyRecordBody").append("<tr style='background-color:#d43f3a;color: #fff;' ><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
-                }else{
-                    $("#atyRecordBody").append("<tr  ><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
-                }
-
-            });
 
 
-        }
         if(aty){
             $("#aty_start_time").html(aty.startTime);
             $("#aty_end_time").html(aty.endTime);
             $("#aty_date").html(aty.date);
             $("#aty_site_num").html(aty.siteNum);
-
-
-
-            $("#aty_time_num").html(aty.timeNum);
-            $("#aty_bad_num").html(aty.badmintonNum);
-            $("#aty_total_person").html(aty.totalPerson);
-            $("#aty_total_cost").html(aty.totalCost);
-            $("#aty_avg_cost").html(aty.avgCost);
-
-
             $("#aty_charge_member_name").html(aty.chargeMember.qqName);
             $("#aty_charge_member_phone").html(aty.chargeMember.phone);
+            $("#aty_time_num").html(aty.timeNum);
+            $("#aty_total_person").html(aty.totalPerson);
+            //alert(aty.atyStatus);
 
+            if(aty.atyStatus=="01"){
+                $("#jieSuanBtn").show();
+                $("#atyHead2").hide();
+                $("#atyHead1").show();
+                $("#div_bad_num").hide();
+                $("#div_total_cost").hide();
+                $("#div_avg_cost").hide();
+                if (data && data.length > 0) {
+                    $.each(data, function (index, obj) {
+                        $("#atyRecordBody").append("<tr  ><td>"+obj.memberName+"</td><td>"+obj.friendNum+"</td><td>"+obj.friendNames+"</td><td>"+obj.baomingTime+"</td><td width='120px;'  >"+obj.isCancle+"</td></tr>");
+                    });
+                }
+
+            }else if(aty.atyStatus=="03"){
+                $("#jieSuanBtn").hide();
+
+                $("#div_bad_num").show();
+                $("#div_total_cost").show();
+                $("#div_avg_cost").show();
+                $("#aty_bad_num").html(aty.badmintonNum);
+                $("#aty_total_cost").html(aty.totalCost);
+                $("#aty_avg_cost").html(aty.avgCost);
+                $("#atyHead1").hide();
+                $("#atyHead2").show();
+                if (data && data.length > 0) {
+                    $.each(data, function (index, obj) {
+                        if(obj.currentDayLeft<0){
+                            $("#atyRecordBody").append("<tr style='background-color:#d43f3a;color: #fff;' ><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
+                        }else{
+                            $("#atyRecordBody").append("<tr  ><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
+                        }
+
+                    });
+                }
+            }
 
         }
 

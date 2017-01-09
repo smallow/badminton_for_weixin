@@ -29,6 +29,12 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
     private Integer totalPerson;//活动总人数
     private String qqGroupNum;//QQ群号
 
+    private String atyStatus;//活动状态
+
+    public static final String ATY_STATUS_WKS="01";//未开始
+    public static final String ATY_STATUS_JXZ="02";//进行中
+    public static final String ATY_STATUS_YJS="03";//已结束
+
     //private List<Member> membersList;//活动参加人
 
 
@@ -137,6 +143,14 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
         this.qqGroupNum = qqGroupNum;
     }
 
+    public String getAtyStatus() {
+        return atyStatus;
+    }
+
+    public void setAtyStatus(String atyStatus) {
+        this.atyStatus = atyStatus;
+    }
+
     @Override
     public Activity mapRow(ResultSet resultSet, int i) throws SQLException {
         Activity activity=new Activity();
@@ -157,6 +171,7 @@ public class Activity extends BeanPropertyRowMapper<Activity> {
         activity.setAvgCost(resultSet.getDouble("avg_cost"));
         activity.setTotalPerson(resultSet.getInt("total_person"));
         activity.setQqGroupNum(resultSet.getString("qq_group_num"));
+        activity.setAtyStatus(resultSet.getString("aty_status"));
         return activity;
     }
 }

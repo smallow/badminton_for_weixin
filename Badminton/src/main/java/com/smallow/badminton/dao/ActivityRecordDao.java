@@ -1,6 +1,7 @@
 package com.smallow.badminton.dao;
 
 import com.smallow.badminton.enity.ActivityRecord;
+import com.smallow.badminton.enity.BaoMingRecordVo;
 import com.smallow.badminton.vo.ActivityRecordVo;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface ActivityRecordDao {
 
 
     public List<ActivityRecordVo> queryAtyRecordViewByProperties(String[] propertyName, Object[] propertyValue, int[] types);
+
+    public List<BaoMingRecordVo> queryAtyBaoMingRecordViewByProperties(String[] propertyName, Object[] propertyValue, int[] types);
+
 }
