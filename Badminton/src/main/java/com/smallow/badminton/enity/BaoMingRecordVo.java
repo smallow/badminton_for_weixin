@@ -16,16 +16,8 @@ public class BaoMingRecordVo extends BeanPropertyRowMapper<BaoMingRecordVo> {
     private String memberName;//会员名称
     private Integer memberId;//会员ID
     private Integer atyId;//活动ID
-    private String  address;//活动地点
-    private String atyDate;//活动日期
-    private String atyStartTime;//活动开始时间
-    private String atyEndTime;//活动结束时间
-    private String chargeMemberName;//负责人名称
-    private String chargeMemberPhone;//负责人电话
-    private Integer siteNum;//场地数
-    private float timeNum;//时间数
-    private Integer totalPerson;//总人数
-    private String atyStatus;
+
+
 
     private Integer friendNum;//带朋友数
     private String friendNames;//朋友名称
@@ -65,85 +57,9 @@ public class BaoMingRecordVo extends BeanPropertyRowMapper<BaoMingRecordVo> {
         this.atyId = atyId;
     }
 
-    public String getAddress() {
-        return address;
-    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
-    public String getAtyDate() {
-        return atyDate;
-    }
 
-    public void setAtyDate(String atyDate) {
-        this.atyDate = atyDate;
-    }
-
-    public String getAtyStartTime() {
-        return atyStartTime;
-    }
-
-    public void setAtyStartTime(String atyStartTime) {
-        this.atyStartTime = atyStartTime;
-    }
-
-    public String getAtyEndTime() {
-        return atyEndTime;
-    }
-
-    public void setAtyEndTime(String atyEndTime) {
-        this.atyEndTime = atyEndTime;
-    }
-
-    public String getChargeMemberName() {
-        return chargeMemberName;
-    }
-
-    public void setChargeMemberName(String chargeMemberName) {
-        this.chargeMemberName = chargeMemberName;
-    }
-
-    public String getChargeMemberPhone() {
-        return chargeMemberPhone;
-    }
-
-    public void setChargeMemberPhone(String chargeMemberPhone) {
-        this.chargeMemberPhone = chargeMemberPhone;
-    }
-
-    public Integer getSiteNum() {
-        return siteNum;
-    }
-
-    public void setSiteNum(Integer siteNum) {
-        this.siteNum = siteNum;
-    }
-
-    public float getTimeNum() {
-        return timeNum;
-    }
-
-    public void setTimeNum(float timeNum) {
-        this.timeNum = timeNum;
-    }
-
-    public Integer getTotalPerson() {
-        return totalPerson;
-    }
-
-    public void setTotalPerson(Integer totalPerson) {
-        this.totalPerson = totalPerson;
-    }
-
-    public String getAtyStatus() {
-        return atyStatus;
-    }
-
-    public void setAtyStatus(String atyStatus) {
-        this.atyStatus = atyStatus;
-    }
 
     public Integer getFriendNum() {
         return friendNum;

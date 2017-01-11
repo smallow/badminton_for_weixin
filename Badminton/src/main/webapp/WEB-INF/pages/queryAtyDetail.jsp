@@ -18,6 +18,7 @@ if(tmp!=null){
         e.printStackTrace();
     }
 }
+
 %>
 <html>
 <head>
@@ -67,7 +68,26 @@ if(tmp!=null){
                     </div>
 
                     <div class="row" id="jieSuanBtn" style="display: none;">
-                        <div class="col-md-12 column" style="padding: 15px;">
+                        <div class="col-sm-3" >
+                            <%--<button class="btn btn-default" onclick="search()">搜索</button>--%>
+                            <div class="form-group"style="padding: 15px;">
+                                <input type="text" id="aty_siteNum" class="form-control" placeholder="场地数">
+                            </div>
+
+                        </div>
+                        <div class="col-sm-3" style="padding: 15px;">
+                            <div class="form-group">
+                                <input type="text" id="aty_badmintonNum"  class="form-control" placeholder="用球数">
+                            </div>
+                        </div>
+                        <div class="col-sm-3" style="padding: 15px;">
+                            <div class="form-group">
+                                <input type="text" id="aty_timeNum" class="form-control" placeholder="时间数">
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-3" style="padding: 15px;">
                             <button type="button" class="btn btn-danger" onclick="finishAty()">结算活动</button>
                         </div>
 
@@ -112,6 +132,7 @@ if(tmp!=null){
 </div>
 
 <script>
+
     $(function(){
         var str = '<%=list%>';
         var atyStr='<%=activity%>';
@@ -130,7 +151,7 @@ if(tmp!=null){
             $("#aty_time_num").html(aty.timeNum);
             $("#aty_total_person").html(aty.totalPerson);
             //alert(aty.atyStatus);
-
+            $("#atyRecordBody").html("");
             if(aty.atyStatus=="01"){
                 $("#jieSuanBtn").show();
                 $("#atyHead2").hide();
@@ -146,7 +167,6 @@ if(tmp!=null){
 
             }else if(aty.atyStatus=="03"){
                 $("#jieSuanBtn").hide();
-
                 $("#div_bad_num").show();
                 $("#div_total_cost").show();
                 $("#div_avg_cost").show();
@@ -155,7 +175,9 @@ if(tmp!=null){
                 $("#aty_avg_cost").html(aty.avgCost);
                 $("#atyHead1").hide();
                 $("#atyHead2").show();
+
                 if (data && data.length > 0) {
+
                     $.each(data, function (index, obj) {
                         if(obj.currentDayLeft<0){
                             $("#atyRecordBody").append("<tr style='background-color:#d43f3a;color: #fff;' ><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
@@ -174,8 +196,47 @@ if(tmp!=null){
 
     function finishAty(){
         var atyId='<%=atyId%>';
-        alert(atyId);
+        //alert(atyId);
+        var siteNum=$("#aty_siteNum").val();
+        var badmintonNum=$("#aty_badmintonNum").val();
+        var timeNum=$("#aty_timeNum").val();
+        $.post(parent._context+"/finishAty.do",{atyId:atyId,siteNum:siteNum,timeNum:timeNum,badmintonNum:badmintonNum},function (msg) {
+            if(msg.msg=="success"){
+                alert("活动结算成功");
+                //$("#mydialog").modal("hide");
+                reloadMemberRecord(msg.data);
+                reloadAtyInfo(msg.atyBean);
+            }
+        })
+
     }
+
+    function  reloadMemberRecord(data){
+        $("#atyHead1").hide();
+        $("#atyHead2").show();
+        $("#atyRecordBody").html("");
+        if (data && data.length > 0) {
+            $.each(data, function (index, obj) {
+                if(obj.currentDayLeft<0){
+                    $("#atyRecordBody").append("<tr style='background-color:#d43f3a;color: #fff;' ><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
+                }else{
+                    $("#atyRecordBody").append("<tr  ><td>"+obj.qqName+"</td><td>"+obj.friendNum+"</td><td>"+obj.atyAvgMoney+"</td><td>"+obj.currentDayCost+"</td><td width='120px;'  >"+obj.currentDayLeft+"</td></tr>");
+                }
+
+            });
+        }
+    }
+
+    function reloadAtyInfo(atyBean){
+        $("#jieSuanBtn").hide();
+        $("#div_bad_num").show();
+        $("#div_total_cost").show();
+        $("#div_avg_cost").show();
+        $("#aty_bad_num").html(atyBean.badmintonNum);
+        $("#aty_total_cost").html(atyBean.totalCost);
+        $("#aty_avg_cost").html(atyBean.avgCost);
+    }
+
 
 </script>
 </body>

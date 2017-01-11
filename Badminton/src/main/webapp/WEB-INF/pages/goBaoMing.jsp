@@ -67,7 +67,10 @@
                         </p>
                     </div>
                     <div class="list-group-item">
-                        场地数:&nbsp;&nbsp;&nbsp;<span id="baoming_aty_site_num" class="list-group-item-text" style="color: #d43f3a;font-size: 20px;"></span>
+                        场地数:&nbsp;&nbsp;&nbsp;<span id="baoming_aty_site_num" class="list-group-item-text" style="color: #d43f3a;font-size: 20px;"></span>&nbsp;&nbsp;(个)
+                    </div>
+                    <div class="list-group-item">
+                        时间数:&nbsp;&nbsp;&nbsp;<span id="baoming_aty_time_num" class="list-group-item-text" style="color: #d43f3a;font-size: 20px;"></span>&nbsp;&nbsp;(小时)
                     </div>
                     <div class="list-group-item">
                         总人数:&nbsp;&nbsp;&nbsp;<span id="baoming_aty_total_person" class="list-group-item-text" style="color: #d9534f;font-size: 20px;"></span>
@@ -134,6 +137,8 @@
             $("#baoming_aty_date").html(aty.date);
             $("#baoming_aty_site_num").html(aty.siteNum);
             $("#baoming_aty_total_person").html(aty.totalPerson);
+            $("#baoming_aty_time_num").html(aty.timeNum);
+
             $("#baoming_aty_charge_member_name").html(aty.chargeMember.qqName);
             $("#baoming_aty_charge_member_phone").html(aty.chargeMember.phone);
         }
@@ -184,6 +189,7 @@
         var isCalcel=$("#go_baoming_isCancel").val();
         var id=$("#go_baoming_id").val();
         $.post(_context+"/baomingSubmit.do",{isCalcel:isCalcel,id:id,atyId:atyId,memberId:memberId,memberName:memberName,friendNums:friendNums,friendNames:friendNames},function(msg){
+            //alert(msg.msg);
             if(msg.msg=="success"){
                 alert("报名成功!");
                 $("#myDialog").modal("hide");

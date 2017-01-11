@@ -121,6 +121,7 @@
             if(msg.msg=="success"){
                 alert("活动发布成功!");
                 parent.getTodayAty();
+                $("#myDialog").modal("hide");
             }
         },'json');
     }

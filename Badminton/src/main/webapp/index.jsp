@@ -8,11 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getContextPath();
-    //String loginCode=(String)session.getAttribute("admin_login_code");
+    String loginCode=(String)session.getAttribute("admin_login_code");
     //System.out.println(loginCode);
-//    if(loginCode==null){
-//        response.sendRedirect("/toAdminLogin.do");
-//    }
+    if(loginCode==null){
+        response.sendRedirect("/toAdminLogin.do");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -186,7 +186,7 @@
     function getTodayAty(){
         $.post(_context+"/getTodaysAty.do",{}, function (data) {
             if(data.msg && data.msg=="none"){
-                alert("今天活动还没发布请不要着急!");
+               // alert("今天活动还没发布请不要着急!");
             }else{
                 //$("#btn_publish_aty").attr("class","btn btn-primary disabled");
 

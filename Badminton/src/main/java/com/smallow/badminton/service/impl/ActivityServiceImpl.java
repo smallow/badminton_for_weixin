@@ -69,6 +69,14 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    public boolean gengxinAtyTotalPerson(Integer totalPerson, Integer atyId) {
+        int i=activityDao.updateActivityByProperties(new String[]{"total_person"},new Object[]{totalPerson},new String[]{"id"},new Object[]{atyId},new int[]{Types.INTEGER,Types.INTEGER});
+        if(i>0)
+            return true;
+        return false;
+    }
+
+    @Override
     public List<Activity> queryAtysByQQGroupNum(String qqGroupNum,Integer pageNum) {
         return activityDao.queryActivityByProerties(new String[]{"qq_group_num"},new Object[]{qqGroupNum},new int[]{Types.VARCHAR},pageNum);
     }

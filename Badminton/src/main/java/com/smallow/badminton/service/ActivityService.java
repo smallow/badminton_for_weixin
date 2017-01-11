@@ -58,6 +58,8 @@ public interface ActivityService {
     public boolean updateActivityByProperties(String[] propertyName, Object[] propertyValue,String[]condition,Object[]conditionValue, int[] types);
 
 
+    public boolean gengxinAtyTotalPerson(Integer totalPerson,Integer atyId);
+
     /**
      * 查询群活动
      * @param qqGroupNum

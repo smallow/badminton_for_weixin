@@ -294,7 +294,8 @@ public class ActivityRecordController {
 
         //报名信息更新成功之后要更新活动 总人数
         int totalPerson=activityService.getTotalPersonByAtyId(atyId);
-        boolean b=activityService.updateActivityByProperties(new String[]{"total_person"},new Object[]{totalPerson},new String[]{"id"},new Object[]{atyId},new int[]{Types.INTEGER,Types.INTEGER});
+        //boolean b=activityService.updateActivityByProperties(new String[]{"total_person"},new Object[]{1},new String[]{"id"},new Object[]{atyId},new int[]{Types.INTEGER,Types.INTEGER});
+        boolean b=activityService.gengxinAtyTotalPerson(totalPerson+Integer.parseInt(friendNums),atyId);
         if(b){
             System.out.println("活动人数更新成功!");
         }
@@ -320,7 +321,8 @@ public class ActivityRecordController {
 
             //报名信息更新成功之后要更新活动 总人数
             int totalPerson=activityService.getTotalPersonByAtyId(bean.getAtyId());
-            boolean b=activityService.updateActivityByProperties(new String[]{"total_person"},new Object[]{totalPerson},new String[]{"id"},new Object[]{bean.getAtyId()},new int[]{Types.INTEGER,Types.INTEGER});
+            //boolean b=activityService.updateActivityByProperties(new String[]{"total_person"},new Object[]{10},new String[]{"id"},new Object[]{bean.getAtyId()},new int[]{Types.INTEGER,Types.INTEGER});
+            boolean b=activityService.gengxinAtyTotalPerson(totalPerson,bean.getAtyId());
             if(b){
                 System.out.println("活动人数更新成功!");
             }
@@ -332,9 +334,75 @@ public class ActivityRecordController {
     }
 
 
+    /**
+     * 结算活动
+     * @param request
+     * @param response
+     * @param atyId
+     */
+
+    @RequestMapping(value = "/finishAty.do", method = {RequestMethod.POST})
+    public void finishAty(HttpServletRequest request, HttpServletResponse response,Integer atyId,Integer siteNum, float timeNum, Integer badmintonNum) {
+        List<ActivityRecordVo> returnList = new ArrayList<ActivityRecordVo>();
+        Map<String, Object> mapReturn = new HashMap<String, Object>();
+
+        List<BaoMingRecordVo> list=activityRecordService.queryActivityBaoMingRecordByAtyId(atyId);
+
+        int totalPerson = 0;
+        for(BaoMingRecordVo baoMingRecordVo:list){
+            totalPerson += baoMingRecordVo.getFriendNum()+1;//1 是他自身
+        }
+
+        System.out.println("打球总人数:" + totalPerson);
+        double totalCost = 30.00 * timeNum * siteNum + 5 * badmintonNum;//场地费一小时30,球费用一个5块
+        double avgCost = new Double(Constant.decimalFormat.format(totalCost / totalPerson)).doubleValue();
+        boolean updateSign = activityService.updateActivityByProperties(new String[]{"site_num", "bad_num", "time_num", "total_cost", "avg_cost", "total_person","aty_status"},
+                new Object[]{siteNum, badmintonNum, timeNum, totalCost, avgCost, totalPerson,Activity.ATY_STATUS_YJS},
+                new String[]{"id"},
+                new Object[]{atyId},
+                new int[]{Types.INTEGER, Types.INTEGER, Types.FLOAT, Types.DOUBLE, Types.DOUBLE, Types.INTEGER,Types.VARCHAR, Types.INTEGER});
+        if (updateSign) {
+            System.out.println("活动信息更新成功,开始更新个人活动记录");
+            Activity atyBean=activityService.getActivityById(atyId);
+            Member member = null;
+            ActivityRecordVo activityRecordVo = null;
+            Member chargeMember = memberService.getMemberById(atyBean.getChargeMember().getId());
+            for (BaoMingRecordVo baoMingRecordVo:list) {
+                member = memberService.getMemberById(baoMingRecordVo.getMemberId());
+                int _friendNum = baoMingRecordVo.getFriendNum();
+                member.setMoney(member.getMoney() - avgCost * (_friendNum + 1));
+                boolean b = activityRecordService.savePersonalActivityRecord(member, chargeMember, atyBean, _friendNum);
+                if (b) {
+                    activityRecordVo = new ActivityRecordVo();
+                    activityRecordVo.setAtyAddress(atyBean.getAddress());
+                    activityRecordVo.setAtyDate(Constant.formatForYYYYMMDD.format(atyBean.getDate()));
+                    activityRecordVo.setAtySiteNum(atyBean.getSiteNum());
+                    activityRecordVo.setAtyTimeNum(atyBean.getTimeNum());
+                    activityRecordVo.setAtyBadNum(atyBean.getBadmintonNum());
+                    activityRecordVo.setAtyTotalPerson(atyBean.getTotalPerson());
+                    activityRecordVo.setAtyTotalMoney(atyBean.getTotalCost());
+                    activityRecordVo.setAtyAvgMoney(atyBean.getAvgCost());
+                    activityRecordVo.setQqName(member.getQqName());
+                    activityRecordVo.setFriendNum(_friendNum);
+                    //BigDecimal   bd   =   new   BigDecimal("3.14159265");
+                    //bd   =   bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+                    activityRecordVo.setCurrentDayCost(new Double(df.format(atyBean.getAvgCost() * (_friendNum + 1))));
+                    activityRecordVo.setCurrentDayLeft(new Double(df.format(member.getMoney())));
+                    returnList.add(activityRecordVo);
+                }
+            }
+            mapReturn.put("msg", "success");
+            mapReturn.put("data", returnList);
+            mapReturn.put("atyBean",atyBean);
+        }
+        ResponseUtils.renderJson(response, JSON.toJSONString(mapReturn));
+
+    }
 
 
-        private ActivityVo parseAtyVo(Activity aty) {
+
+
+    private ActivityVo parseAtyVo(Activity aty) {
 
 
         ActivityVo bean = new ActivityVo();
