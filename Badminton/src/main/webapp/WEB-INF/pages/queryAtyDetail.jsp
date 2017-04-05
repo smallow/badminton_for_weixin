@@ -7,6 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    String loginCode=(String)session.getAttribute("admin_login_code");
+    //System.out.println(loginCode);
+    if(loginCode==null){
+        response.sendRedirect("/toAdminLogin.do");
+    }
+
+
 String list=(String)request.getAttribute("list");
 String activity=(String)request.getAttribute("activity");
 Object tmp=request.getAttribute("atyId");

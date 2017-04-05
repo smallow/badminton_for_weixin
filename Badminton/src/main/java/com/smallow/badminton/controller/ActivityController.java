@@ -158,6 +158,19 @@ public class ActivityController {
         }
         ResponseUtils.renderJson(response,JSON.toJSONString(list));
     }
+
+    @RequestMapping(value = "/test.do",method = {RequestMethod.POST,RequestMethod.GET})
+    public void test(HttpServletResponse response){
+       Map<String,String> map=new HashMap<String, String>();
+       map.put("opState","success");
+       map.put("opInfo","保存成功1111111");
+       String json=JSON.toJSONString(map);
+       System.out.println("返回给客户端接口json数据为:"+json);
+
+        ResponseUtils.renderJson(response,json);
+    }
+
+
     @RequestMapping(value = "/qqGroupManage.do",method = {RequestMethod.GET})
     public String qqGroupManage(HttpServletRequest request){
         List<Group> list = badmintonService.getAllGroup();

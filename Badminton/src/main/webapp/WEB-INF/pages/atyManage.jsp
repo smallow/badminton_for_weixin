@@ -7,6 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+
+    String loginCode=(String)session.getAttribute("admin_login_code");
+    //System.out.println(loginCode);
+    if(loginCode==null){
+        response.sendRedirect("/toAdminLogin.do");
+    }
 String path=request.getContextPath();
 String qqGroupId=request.getParameter("qqGroupId");
 %>
@@ -97,7 +103,7 @@ $(function(){
     function initPagination() {
         for(var i=0;i<10;i++){
             var a=i+1;
-            $("#fenye").append("<li><a href=\"javascript:void(0);\" onclick=\"query('"+i+1+"')\">"+a+"</a></li>");
+            $("#fenye").append("<li><a href=\"javascript:void(0);\" onclick=\"query('"+(i+1)+"')\">"+a+"</a></li>");
         }
     }
 

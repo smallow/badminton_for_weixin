@@ -111,11 +111,11 @@ public class ActivityRecordController {
                 System.out.println("打球总人数:" + totalPerson);
                 double totalCost = 30.00 * timeNum * siteNum + 5 * badmintonNum;//场地费一小时30,球费用一个5块
                 double avgCost = new Double(Constant.decimalFormat.format(totalCost / totalPerson)).doubleValue();
-                boolean updateSign = activityService.updateActivityByProperties(new String[]{"site_num", "bad_num", "time_num", "total_cost", "avg_cost", "total_person"},
-                        new Object[]{siteNum, badmintonNum, timeNum, totalCost, avgCost, totalPerson},
+                boolean updateSign = activityService.updateActivityByProperties(new String[]{"site_num", "bad_num", "time_num", "total_cost", "avg_cost", "total_person","aty_status"},
+                        new Object[]{siteNum, badmintonNum, timeNum, totalCost, avgCost, totalPerson,Activity.ATY_STATUS_YJS},
                         new String[]{"id"},
                         new Object[]{Integer.parseInt(activityId)},
-                        new int[]{Types.INTEGER, Types.INTEGER, Types.FLOAT, Types.DOUBLE, Types.DOUBLE, Types.INTEGER, Types.INTEGER});
+                        new int[]{Types.INTEGER, Types.INTEGER, Types.FLOAT, Types.DOUBLE, Types.DOUBLE, Types.INTEGER,Types.VARCHAR, Types.INTEGER});
                 if (updateSign) {
                     System.out.println("活动信息更新成功,开始更新个人活动记录");
                     Activity activity = activityService.getActivityById(Integer.parseInt(activityId));

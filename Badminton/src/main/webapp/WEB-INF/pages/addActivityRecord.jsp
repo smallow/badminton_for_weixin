@@ -188,7 +188,7 @@
         var siteNum=$("#siteNum").val();
         var badmintonNum=$("#badmintonNum").val();
         var timeNum=$("#timeNum").val();
-        alert(timeNum);
+        //alert(timeNum);
         $.post(_context+"/addActivityRecordSubmit.do",{
             activityId:activityId,
             memberIds:ids,

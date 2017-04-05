@@ -7,6 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    String loginCode=(String)session.getAttribute("admin_login_code");
+    //System.out.println(loginCode);
+    if(loginCode==null){
+        response.sendRedirect("/toAdminLogin.do");
+    }
+
+
+
+
     String listJson = (String) request.getAttribute("list");
     Member member=(Member)request.getAttribute("member");
     String qqName="";
